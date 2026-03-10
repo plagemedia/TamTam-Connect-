@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tam-Tam Hotspot G-B — Portail Captif</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#ff6b35; /* tam-tam orange */
+      --muted:#6b7280;
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#071426 0%, #081226 60%);color:#e6eef8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .container{width:100%;max-width:1100px}
+
+    header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .mark{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff9b6a);display:flex;align-items:center;justify-content:center;font-weight:800;color:#111}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .topbar{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);backdrop-filter:blur(6px);margin-bottom:18px}
+    .bandwidths{display:flex;gap:10px;align-items:center}
+    .band{padding:8px 12px;border-radius:999px;background:var(--glass);font-weight:600;font-size:13px}
+    .band.active{background:rgba(255,255,255,0.06);box-shadow:0 4px 18px rgba(0,0,0,0.4)}
+
+    .grid{display:grid;grid-template-columns:1fr 400px;gap:25px}
+    @media (max-width:920px){.grid{grid-template-columns:1fr;}.aside{order:2}}
+
+    /* Plans */
+    .plans{display:flex;flex-direction:column;gap:12px}
+    .cards{display:flex;gap:12px;flex-wrap:wrap}
+    .card{flex:1 1 180px;background:linear-gradient(180deg,#081226, #071021);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.04)}
+    .price{font-weight:800;font-size:22px}
+    .desc{color:var(--muted);font-size:13px;margin-top:6px}
+    .buy{display:inline-block;margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--accent);color:#111;font-weight:700;text-decoration:none}
+
+    /* Right column */
+    .aside{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;padding:14px}
+    .quick-actions{display:flex;flex-direction:column;gap:10px}
+    .action{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer}
+    .action svg{width:28px;height:28px;flex-shrink:0}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Footer small */
+    footer{margin-top:14px;color:var(--muted);font-size:12px;text-align:center}
+
+    /* small helpers */
+    .pill{display:inline-block;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600}
+    .tag{font-size:12px;color:var(--muted)}
+
+    /* Interactive demo */
+    .selected{outline:2px solid rgba(255,255,255,0.03);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <header>
+      <div class="logo">
+        <div class="mark">TT</div>
+        <div>
+          <h1>Tam-Tam Hotspot G‑B</h1>
+          <p class="lead">Connectez-vous rapidement — Forfaits prépayés, TV/Radio & contenu TamTam+</p>
+        </div>
+      </div>
+      <div style="margin-left:auto" class="tag">SSID: <span class="pill">TamTam_GB</span></div>
+    </header>
+
+    <div class="topbar">
+      <div class="bandwidths">
+        <div class="band active">Bande passante: 20 Gbps</div>
+        <div class="band">10 Mbps</div>
+        <div class="band">20 Mbps</div>
+        <div class="band">50 Mbps</div>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="tag">Mode invité</div>
+        <div class="pill">Offres: 200F / 500F / 1000F</div>
+      </div>
+    </div>
+
+    <main class="grid">
+      <section>
+        <div class="plans">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h2 style="margin:0">Choisissez un forfait</h2>
+            <div class="muted">Paiement par Mobile Money ou Carte (démo)</div>
+          </div>
+
+          <div class="cards" style="margin-top:8px">
+            <!-- Card 200 FCFA -->
+            <article class="card" id="plan-200">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="price">200 FCFA</div>
+                  <div class="desc">Accès 24 heures • Jusqu'à 5 Mbps</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="tag">Accès Rapide</div>
+                  <div style="font-size:11px;color:var(--muted)">Promo: idéal court séjour</div>
+                </div>
+              </div>
+              <a class="buy" data-price="200" href="#" onclick="selectPlan(event,200)">Acheter</a>
+            </article>
+
+            <!-- Card 500 FCFA -->
+            <article class="card selected" id="plan-500">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="price">500 FCFA</div>
+                  <div class="desc">Accès 72 heures • Jusqu'à 10 Mbps</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="tag">Meilleur rapport</div>
+                  <div style="font-size:11px;color:var(--muted)">Streaming léger, navigation</div>
+                </div>
+              </div>
+              <a class="buy" data-price="500" href="#" onclick="selectPlan(event,500)">Acheter</a>
+            </article>
+
+            <!-- Card 1000 FCFA -->
+            <article class="card" id="plan-1000">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="price">1000 FCFA</div>
+                  <div class="desc">Accès 7  jours • Jusqu'à 10–20 Mbps (selon couverture)</div>
+                </div>
+                <div style="text-align:right">
+                  <div class="tag">Usage intensif</div>
+                  <div style="font-size:11px;color:var(--muted)">Streaming HD, download</div>
+                </div>
+              </div>
+              <a class="buy" data-price="1000" href="#" onclick="selectPlan(event,1000)">Acheter</a>
+            </article>
+          </div>
+
+          <div style="margin-top:14px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.02)">
+            <h3 style="margin:0 0 6px 0">Résumé</h3>
+            <div id="summary" class="muted">Aucun forfait sélectionné.</div>
+          </div>
+        </div>
+
+        <!-- Additional info / small print -->
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">
+          <strong>Info technique:</strong> Les vitesses indiquées sont maximales théoriques, l'expérience réelle dépend du nombre d'utilisateurs et de la couverture réseau.
+        </div>
+      </section>
+
+      <aside class="aside">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div>
+            <div style="font-weight:800">Accès Rapide</div>
+            <div class="muted">Options multimédia & services</div>
+          </div>
+          <div style="font-size:12px" class="pill">ID Terminal: GB-01</div>
+        </div>
+
+        <div class="quick-actions">
+          <div class="action" onclick="openService('tv')">
+            <!-- TV icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8"/><path d="M12 4v-2"/></svg>
+            <div>
+              <div style="font-weight:700">TamTam TV</div>
+              <div class="muted">Accéder aux chaînes en direct</div>
+            </div>
+          </div>
+
+          <div class="action" onclick="openService('radio')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="2"/><circle cx="12" cy="13" r="3"/></svg>
+            <div>
+              <div style="font-weight:700">TamTam Radio</div>
+              <div class="muted">Écouter les stations </div>
+            </div>
+          </div>
+
+          <div class="action" onclick="openService('ads')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h18v6H3z"/><path d="M7 10v-4"/></svg>
+            <div>
+              <div style="font-weight:700">Annonces publicitaires</div>
+              <div class="muted">Infos & promos locales</div>
+            </div>
+          </div>
+
+          <div class="action" onclick="openService('plus')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            <div>
+              <div style="font-weight:700">TamTam+</div>
+              <div class="muted">Films, séries & VOD (type Netflix)</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01)">
+          <div style="font-weight:700">Connexion en un clic</div>
+          <div class="muted" style="margin-top:6px">Saisissez votre numéro Mobile Money puis confirmez le paiement.</div>
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <input id="phone" placeholder="Numéro Mobile" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+            <button onclick="payNow()" style="padding:10px 12px;border-radius:8px;background:var(--accent);border:none;font-weight:700;cursor:pointer">Payer</button>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;text-align:center">
+          <div class="muted" style="font-size:12px">Support: +225 05 56 25 54 50</div>
+          <div class="muted" style="font-size:12px">ogoungbrkodjoripatrice@gmail.com</div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      © Tam-Tam Hotspot G‑B — Conditions d'utilisation et politique de confidentialité disponibles sur demande.
+    </footer>
+  </div>
+
+  <script>
+    function selectPlan(e,price){
+      e.preventDefault();
+      document.querySelectorAll('.card').forEach(c=>c.classList.remove('selected'));
+      document.getElementById('plan-'+price).classList.add('selected');
+      const summary = document.getElementById('summary');
+      let text='';
+      if(price===200) text='Forfait 200 FCFA — 24 heures. Vitesse: jusqu\'à  5 Mbps.';
+      if(price===500) text='Forfait 500 FCFA — 48 heures. Vitesse: jusqu\'à 10 Mbps.';
+      if(price===1000) text='Forfait 1000 FCFA — 7 jours. Vitesse: jusqu\'à 20 Mbps selon couverture.';
+      summary.textContent = text + ' Entrez votre numéro et appuyez sur Payer.';
+      // store selected
+      window.selectedPlan = price;
+    }
+
+    function openService(name){
+      // Demo behaviour — in real integration this would redirect to the service with auth token
+      if(!window.selectedPlan){
+        alert('Sélectionnez d\'abord un forfait (200 / 500 / 1000 FCFA).');
+        return;
+      }
+      switch(name){
+        case 'tv':
+          alert('Ouverture TamTam TV — redirection vers la plateforme en streaming...');
+          break;
+        case 'radio':
+          alert('Ouverture TamTam Radio — lecture en cours...');
+          break;
+        case 'ads':
+          alert('Affichage des annonces locales...');
+          break;
+        case 'plus':
+          alert('Ouverture TamTam+ — catalogue VOD. (Simulé)');
+          break;
+      }
+    }
+
+    function payNow(){
+      const phone = document.getElementById('phone').value.trim();
+      if(!window.selectedPlan){ alert('Choisissez un forfait d\'abord.'); return; }
+      if(!phone || phone.length<8){ alert('Entrez un numéro Mobile Money valide.'); return; }
+      // Simulate payment flow
+      alert('Paiement simulé: ' + window.selectedPlan + ' FCFA demandé au ' + phone + '.\n(Implémentez l\'API Mobile Money côté serveur.)');
+    }
+
+    // init default selection
+    window.selectedPlan = 500;
+    document.getElementById('plan-500').classList.add('selected');
+    document.getElementById('summary').textContent = 'Forfait 500 FCFA — 48 heures. Vitesse: jusqu\'à 10 Mbps. Entrez votre numéro et appuyez sur Payer.';
+  </script>
+</body>
+</html>
